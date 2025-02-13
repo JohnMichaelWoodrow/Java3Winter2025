@@ -2,6 +2,7 @@ package JMWJava3Assignment1;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -40,9 +41,11 @@ public class BookApplication {
                 System.out.println("1. Print all books");
                 System.out.println("2. Print all authors");
                 System.out.println("3. Edit a book or author");
-                System.out.println("4. Add a new book");
-                System.out.println("5. Delete a book or author");
-                System.out.println("6. Quit");
+                System.out.println("4. Print all books by Author");
+                System.out.println("5. Print all authors of a Book");
+                System.out.println("6. Add a new book");
+                System.out.println("7. Delete a book or author");
+                System.out.println("8. Quit");
 
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -54,10 +57,14 @@ public class BookApplication {
                 } else if (choice == 3) {
                     editBookOrAuthor(scanner, library);
                 } else if (choice == 4) {
-                    addNewBook(scanner, library);
+                    printBooksForAuthor(scanner, library, dbManager);
                 } else if (choice == 5) {
-                    deleteBookOrAuthor(scanner, library);
+                    printAuthorsForBook(scanner, library, dbManager);
                 } else if (choice == 6) {
+                    addNewBook(scanner, library);
+                } else if (choice == 7) {
+                    deleteBookOrAuthor(scanner, library);
+                } else if (choice == 8) {
                     running = false;
                 } else {
                     System.out.println("Invalid choice. Please try again.");
@@ -96,6 +103,72 @@ public class BookApplication {
             }
         }
     }
+
+    /**
+     * Prints all authors of a specific book.
+     * @param scanner The scanner for user input.
+     * @param library The library instance containing existing books and authors.
+     * @param dbManager The database manager for retrieving author associations.
+     */
+    private static void printAuthorsForBook(Scanner scanner, Library library, BookDatabaseManager dbManager) {
+        System.out.println("Enter the ISBN of the book:");
+        String isbn = scanner.nextLine();
+
+        Book book = library.getBookByIsbn(isbn);
+        if (book == null) {
+            System.out.println("Book not found.");
+            return;
+        }
+
+        try {
+            dbManager.loadAuthorsForBook(book, library);
+            if (book.getAuthors().isEmpty()) {
+                System.out.println("No authors found for this book.");
+            } else {
+                System.out.println("Authors for \"" + book.getTitle() + "\":");
+                for (Author author : book.getAuthors()) {
+                    System.out.println(" - " + author.getFirstName() + " " + author.getLastName());
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error loading authors for book: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Prints all books by a specific author.
+     * @param scanner The scanner for user input.
+     * @param library The library instance containing existing books and authors.
+     * @param dbManager The database manager for retrieving book associations.
+     */
+    private static void printBooksForAuthor(Scanner scanner, Library library, BookDatabaseManager dbManager) {
+        System.out.println("Enter the first name of the author:");
+        String firstName = scanner.nextLine();
+        System.out.println("Enter the last name of the author:");
+        String lastName = scanner.nextLine();
+
+        Author author = library.getAuthorByFullName(firstName, lastName);
+        if (author == null) {
+            System.out.println("Author not found.");
+            return;
+        }
+
+        try {
+            dbManager.loadBooksForAuthor(author, library);
+            if (author.getBooks().isEmpty()) {
+                System.out.println("No books found for this author.");
+            } else {
+                System.out.println("Books by " + author.getFirstName() + " " + author.getLastName() + ":");
+                for (Book book : author.getBooks()) {
+                    System.out.println(" - " + book.getTitle() + " (ISBN: " + book.getIsbn() + ")");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error loading books for author: " + e.getMessage());
+        }
+    }
+
+
 
     /**
      * Prints a list of all authors in the library along with the books they have written.
@@ -246,7 +319,6 @@ public class BookApplication {
                 }
                 newBook.addAuthor(author);
             }
-
             library.addBook(newBook);
             library.refreshData();
             System.out.println("New book added successfully.");

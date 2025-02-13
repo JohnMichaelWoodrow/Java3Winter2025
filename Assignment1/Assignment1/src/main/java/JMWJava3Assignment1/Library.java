@@ -31,6 +31,8 @@ public class Library {
         try {
             books = dbManager.getAllBooks();
             authors = dbManager.getAllAuthors();
+            //TODO load the relationships
+
         } catch (SQLException e) {
             System.err.println("Error loading library data: " + e.getMessage());
         }

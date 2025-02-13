@@ -43,7 +43,6 @@ public class BookDatabaseManager {
                         rs.getString("copyright")
                 );
                 books.add(book);
-                loadAuthorsForBook(book);
             }
         }
         return books;
@@ -67,57 +66,9 @@ public class BookDatabaseManager {
                         rs.getString("lastName")
                 );
                 authors.add(author);
-                loadBooksForAuthor(author);
             }
         }
         return authors;
-    }
-
-    /**
-     * Loads all authors associated with a given book from the database.
-     * @param book The book whose authors are being retrieved.
-     * @throws SQLException if a database access error occurs.
-     */
-    private void loadAuthorsForBook(Book book) throws SQLException {
-        String query = "SELECT a.* FROM authors a " +
-                "JOIN authorISBN ai ON a.authorID = ai.authorID " +
-                "WHERE ai.isbn = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, book.getIsbn());
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Author author = new Author(
-                        rs.getInt("authorID"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName")
-                );
-                book.addAuthor(author);
-            }
-        }
-    }
-
-    /**
-     * Loads all books associated with a given author from the database.
-     * @param author The author whose books are being retrieved.
-     * @throws SQLException if a database access error occurs.
-     */
-    private void loadBooksForAuthor(Author author) throws SQLException {
-        String query = "SELECT t.* FROM titles t " +
-                "JOIN authorISBN ai ON t.isbn = ai.isbn " +
-                "WHERE ai.authorID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, author.getAuthorId());
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Book book = new Book(
-                        rs.getString("isbn"),
-                        rs.getString("title"),
-                        rs.getInt("editionNumber"),
-                        rs.getString("copyright")
-                );
-                author.addBook(book);
-            }
-        }
     }
 
     /**
@@ -169,6 +120,48 @@ public class BookDatabaseManager {
                 stmt.addBatch();
             }
             stmt.executeBatch();
+        }
+    }
+
+    /**
+     * Prints all authors of a specific book.
+     */
+    void loadAuthorsForBook(Book book, Library library) throws SQLException {
+        String query = "SELECT ai.authorID FROM authorISBN ai WHERE ai.isbn = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, book.getIsbn());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int authorId = rs.getInt("authorID");
+                Author author = library.getAuthors().stream()
+                        .filter(a -> a.getAuthorId() == authorId)
+                        .findFirst()
+                        .orElse(null);
+                if (author != null) {
+                    book.addAuthor(author);
+                }
+            }
+        }
+    }
+
+    /**
+     * Prints all books by a specific author.
+     */
+    void loadBooksForAuthor(Author author, Library library) throws SQLException {
+        String query = "SELECT ai.isbn FROM authorISBN ai WHERE ai.authorID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, author.getAuthorId());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String isbn = rs.getString("isbn");
+                Book book = library.getBooks().stream()
+                        .filter(b -> b.getIsbn().equals(isbn))
+                        .findFirst()
+                        .orElse(null);
+                if (book != null) {
+                    author.addBook(book);
+                }
+            }
         }
     }
 
