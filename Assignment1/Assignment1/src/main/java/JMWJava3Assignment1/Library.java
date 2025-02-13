@@ -32,6 +32,7 @@ public class Library {
             books = dbManager.getAllBooks();
             authors = dbManager.getAllAuthors();
             //TODO load the relationships
+            //Load objects in a way where theyre not duplicating authors
 
         } catch (SQLException e) {
             System.err.println("Error loading library data: " + e.getMessage());

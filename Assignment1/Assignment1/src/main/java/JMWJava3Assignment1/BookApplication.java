@@ -35,6 +35,9 @@ public class BookApplication {
             BookDatabaseManager dbManager = new BookDatabaseManager(dbUrl, dbUsername, dbPassword);
             Library library = new Library(dbManager);
 
+            //Code to test author states
+            //library.getAuthors().get(0).setFirstName("Paul");
+
             boolean running = true;
             do {
                 System.out.println("\nMenu:");
