@@ -35,8 +35,9 @@ public class BookApplication {
             BookDatabaseManager dbManager = new BookDatabaseManager(dbUrl, dbUsername, dbPassword);
             Library library = new Library(dbManager);
 
-            //Code to test author states
-            //library.getAuthors().get(0).setFirstName("Paul");
+            // Code to test author states
+            // library.getAuthors().get(0).setFirstName("Paul");
+            // Results: State has always been fine, even without making changes it always returns the same author object
 
             boolean running = true;
             do {

@@ -32,17 +32,9 @@ public class BookDatabaseManager {
     public List<Book> getAllBooks() throws SQLException {
         String query = "SELECT * FROM titles";
         List<Book> books = new ArrayList<>();
-
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                Book book = new Book(
-                        rs.getString("isbn"),
-                        rs.getString("title"),
-                        rs.getInt("editionNumber"),
-                        rs.getString("copyright")
-                );
-                books.add(book);
+                books.add(new Book(rs.getString("isbn"), rs.getString("title"), rs.getInt("editionNumber"), rs.getString("copyright")));
             }
         }
         return books;
@@ -56,16 +48,9 @@ public class BookDatabaseManager {
     public List<Author> getAllAuthors() throws SQLException {
         String query = "SELECT * FROM authors";
         List<Author> authors = new ArrayList<>();
-
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                Author author = new Author(
-                        rs.getInt("authorID"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName")
-                );
-                authors.add(author);
+                authors.add(new Author(rs.getInt("authorID"), rs.getString("firstName"), rs.getString("lastName")));
             }
         }
         return authors;
@@ -124,43 +109,47 @@ public class BookDatabaseManager {
     }
 
     /**
-     * Prints all authors of a specific book.
+     * Returns all authors of a specific book.
      */
-    void loadAuthorsForBook(Book book, Library library) throws SQLException {
+    public void loadAuthorsForBook(Book book, Library library) throws SQLException {
         String query = "SELECT ai.authorID FROM authorISBN ai WHERE ai.isbn = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, book.getIsbn());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                int authorId = rs.getInt("authorID");
-                Author author = library.getAuthors().stream()
-                        .filter(a -> a.getAuthorId() == authorId)
+                library.getAuthors().stream()
+                        .filter(a -> {
+                            try {
+                                return a.getAuthorId() == rs.getInt("authorID");
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
                         .findFirst()
-                        .orElse(null);
-                if (author != null) {
-                    book.addAuthor(author);
-                }
+                        .ifPresent(book::addAuthor);
             }
         }
     }
 
     /**
-     * Prints all books by a specific author.
+     * Returns all books by a specific author.
      */
-    void loadBooksForAuthor(Author author, Library library) throws SQLException {
+    public void loadBooksForAuthor(Author author, Library library) throws SQLException {
         String query = "SELECT ai.isbn FROM authorISBN ai WHERE ai.authorID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, author.getAuthorId());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String isbn = rs.getString("isbn");
-                Book book = library.getBooks().stream()
-                        .filter(b -> b.getIsbn().equals(isbn))
+                library.getBooks().stream()
+                        .filter(b -> {
+                            try {
+                                return b.getIsbn().equals(rs.getString("isbn"));
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
                         .findFirst()
-                        .orElse(null);
-                if (book != null) {
-                    author.addBook(book);
-                }
+                        .ifPresent(author::addBook);
             }
         }
     }

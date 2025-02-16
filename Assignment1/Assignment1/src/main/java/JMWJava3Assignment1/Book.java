@@ -65,11 +65,27 @@ public class Book {
     }
 
     /**
+     * Sets a new edition number for the book.
+     * @param editionNumber The new edition number of the book.
+     */
+    public void setEditionNumber(int editionNumber) {
+        this.editionNumber = editionNumber;
+    }
+
+    /**
      * Retrieves the copyright information of the book.
      * @return The copyright details.
      */
     public String getCopyright() {
         return copyright;
+    }
+
+    /**
+     * Sets new copyright information.
+     * @param copyright
+     */
+    public void setCopyRight(String copyright) {
+        this.copyright = this.copyright;
     }
 
     /**
