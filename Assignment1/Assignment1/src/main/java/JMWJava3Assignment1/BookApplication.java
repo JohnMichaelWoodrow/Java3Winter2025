@@ -17,7 +17,6 @@ public class BookApplication {
     /**
      * Main method to run the application.
      * Initializes database connection and provides an interactive menu.
-     * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
