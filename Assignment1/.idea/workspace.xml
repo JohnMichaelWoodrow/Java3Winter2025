@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="5921a7aa-e345-4080-8611-f2307a5540c8" name="Changes" comment="" />
+    <list default="true" id="5921a7aa-e345-4080-8611-f2307a5540c8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/mariadb-java-client-3.5.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/src/main/java/JMWJava3Assignment2/Author.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/src/main/java/JMWJava3Assignment2/Book.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/src/main/java/JMWJava3Assignment2/BookApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/src/main/java/JMWJava3Assignment2/BookDatabaseManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/src/main/java/JMWJava3Assignment2/Library.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment2/Assignment2/src/main/java/org/example/Main.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,9 +27,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2tJfpa85dT3QB2TUNeE4jlJeInb" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -23,7 +40,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/rusty/IdeaProjects/Java3Winter2025/Java3Winter2025/Assignment1/Assignment1",
+    "last_opened_file_path": "C:/Users/rusty/IdeaProjects/Java3Winter2025/Java3Winter2025/Assignment1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -45,6 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740075282171</updated>
       <workItem from="1740075283223" duration="14000" />
+      <workItem from="1740077899571" duration="387000" />
     </task>
     <servers />
   </component>
