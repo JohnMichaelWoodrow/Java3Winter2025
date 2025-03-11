@@ -11,7 +11,7 @@
     String message = (String) request.getAttribute("message");
     if (message != null) {
 %>
-<div style="color: green; font-weight: bold; border: 1px solid green; padding: 10px; margin-bottom: 10px;">
+<div style="color: Red; font-weight: bold; border: 1px solid green; padding: 15px; margin-bottom: 15px;">
     <%= message %>
 </div>
 <% } %>

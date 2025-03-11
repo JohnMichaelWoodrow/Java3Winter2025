@@ -22,6 +22,7 @@ public class LibraryData extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
+            // Change based on home or class
             String dbUrl = "jdbc:mariadb://localhost:3306/books";
             String dbUsername = "root";
             String dbPassword = "roottoor";
@@ -105,12 +106,15 @@ public class LibraryData extends HttpServlet {
             }
             book.addAuthor(author);
             dbManager.addBook(book);
+
             request.setAttribute("message", "Book added successfully.");
+            response.sendRedirect("LibraryData?view=books"); 
         } catch (SQLException e) {
             request.setAttribute("message", "Error adding book: " + e.getMessage());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
+
 
     /**
      * Adds a new author.
@@ -234,6 +238,4 @@ public class LibraryData extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
-
-
 }

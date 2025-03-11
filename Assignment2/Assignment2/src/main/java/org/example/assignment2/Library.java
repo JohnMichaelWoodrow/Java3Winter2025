@@ -69,10 +69,10 @@ public class Library {
     }
 
     /**
-     * Finds an author by full name.
-     * @param firstName The first name.
-     * @param lastName The last name.
-     * @return The matching Author or null if not found.
+     * Finds and returns an author by their full name.
+     * @param firstName The author's first name.
+     * @param lastName The author's last name.
+     * @return The author with the given name, or null if not found.
      */
     public Author getAuthorByFullName(String firstName, String lastName) {
         return authors.stream().filter(author -> author.getFirstName().equalsIgnoreCase(firstName) && author.getLastName().equalsIgnoreCase(lastName)).findFirst().orElse(null);
@@ -92,20 +92,7 @@ public class Library {
     }
 
     /**
-     * Adds an author to the Library and database.
-     * @param author The author to add.
-     */
-    public void addAuthor(Author author) {
-        authors.add(author);
-        try {
-            dbManager.addAuthor(author);
-        } catch (SQLException e) {
-            System.err.println("Error adding author: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Updates a book in the database.
+     * Updates a book's information in the database.
      * @param book The book to update.
      */
     public void updateBook(Book book) {
@@ -113,18 +100,6 @@ public class Library {
             dbManager.updateBook(book);
         } catch (SQLException e) {
             System.err.println("Error updating book: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Updates an author in the database.
-     * @param author The author to update.
-     */
-    public void updateAuthor(Author author) {
-        try {
-            dbManager.updateAuthor(author);
-        } catch (SQLException e) {
-            System.err.println("Error updating author: " + e.getMessage());
         }
     }
 
@@ -138,6 +113,31 @@ public class Library {
             dbManager.deleteBook(book);
         } catch (SQLException e) {
             System.err.println("Error deleting book: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Adds an author to the Library and database.
+     * @param author The author to add.
+     */
+    public void addAuthor(Author author) {
+        authors.add(author);
+        try {
+            dbManager.addAuthor(author);
+        } catch (SQLException e) {
+            System.err.println("Error adding author: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates an author's information in the database.
+     * @param author The author to update.
+     */
+    public void updateAuthor(Author author) {
+        try {
+            dbManager.updateAuthor(author);
+        } catch (SQLException e) {
+            System.err.println("Error updating author: " + e.getMessage());
         }
     }
 

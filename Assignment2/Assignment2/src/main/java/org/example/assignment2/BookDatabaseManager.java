@@ -15,7 +15,8 @@ public class BookDatabaseManager {
 
     /**
      * Establishes a connection to the database using the provided credentials.
-     * @param dbUrl The database URL.
+     *
+     * @param dbUrl    The database URL.
      * @param username The database username.
      * @param password The database password.
      * @throws SQLException if a database connection error occurs.
@@ -31,6 +32,7 @@ public class BookDatabaseManager {
 
     /**
      * Retrieves all books from the database.
+     *
      * @return A list of all books.
      * @throws SQLException if a database access error occurs.
      */
@@ -65,9 +67,9 @@ public class BookDatabaseManager {
         return null;
     }
 
-
     /**
      * Adds a new book to the database.
+     *
      * @param book The book to add.
      * @throws SQLException if a database access error occurs.
      */
@@ -84,7 +86,9 @@ public class BookDatabaseManager {
     }
 
     /**
-     * Updates book information in the database.
+     * Updates an existing book's details in the database.
+     * @param book The book to update.
+     * @throws SQLException if a database access error occurs.
      */
     public void updateBook(Book book) throws SQLException {
         String query = "UPDATE titles SET title = ?, editionNumber = ?, copyright = ? WHERE isbn = ?";
@@ -98,7 +102,10 @@ public class BookDatabaseManager {
     }
 
     /**
-     * Deletes a book from the database and removes its associations.
+     * Deletes a book from the database.
+     * Also removes any author-book associations.
+     * @param book The book to delete.
+     * @throws SQLException if a database access error occurs.
      */
     public void deleteBook(Book book) throws SQLException {
         System.out.println("Deleting book from database: " + book.getIsbn());
@@ -117,6 +124,22 @@ public class BookDatabaseManager {
         }
     }
 
+    /**
+     * Returns all authors of a specific book.
+     */
+    public void loadAuthorsForBook(Book book) throws SQLException {
+        String query = "SELECT a.authorID, a.firstName, a.lastName FROM authors a " +
+                "JOIN authorISBN ai ON a.authorID = ai.authorID " +
+                "WHERE ai.isbn = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, book.getIsbn());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Author author = new Author(rs.getInt("authorID"), rs.getString("firstName"), rs.getString("lastName"));
+                book.addAuthor(author);
+            }
+        }
+    }
 
     /**
      * Retrieves all authors from the database.
@@ -137,7 +160,7 @@ public class BookDatabaseManager {
     }
 
     /**
-     * Retrieves an author by their ID.
+     * Returns an author by their ID.
      */
     public Author getAuthorById(int authorId) throws SQLException {
         String query = "SELECT * FROM authors WHERE authorID = ?";
@@ -151,6 +174,21 @@ public class BookDatabaseManager {
         return null;
     }
 
+    /**
+     * Returns an author by their first and last name.
+     */
+    public Author getAuthorByName(String firstName, String lastName) throws SQLException {
+        String query = "SELECT * FROM authors WHERE firstName = ? AND lastName = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, firstName);
+            stmt.setString(2, lastName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Author(rs.getInt("authorID"), rs.getString("firstName"), rs.getString("lastName"));
+            }
+        }
+        return null;
+    }
 
     /**
      * Adds a new author to the database.
@@ -171,7 +209,9 @@ public class BookDatabaseManager {
     }
 
     /**
-     * Updates author information in the database.
+     * Updates an existing author's details in the database.
+     * @param author The author to update.
+     * @throws SQLException if a database access error occurs.
      */
     public void updateAuthor(Author author) throws SQLException {
         String query = "UPDATE authors SET firstName = ?, lastName = ? WHERE authorID = ?";
@@ -185,6 +225,8 @@ public class BookDatabaseManager {
 
     /**
      * Deletes an author from the database.
+     * @param author The author to delete.
+     * @throws SQLException if a database access error occurs.
      */
     public void deleteAuthor(Author author) throws SQLException {
         String query = "DELETE FROM authors WHERE authorID = ?";
@@ -195,24 +237,7 @@ public class BookDatabaseManager {
     }
 
     /**
-     * Loads authors for a specific book.
-     */
-    public void loadAuthorsForBook(Book book) throws SQLException {
-        String query = "SELECT a.authorID, a.firstName, a.lastName FROM authors a " +
-                "JOIN authorISBN ai ON a.authorID = ai.authorID " +
-                "WHERE ai.isbn = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, book.getIsbn());
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Author author = new Author(rs.getInt("authorID"), rs.getString("firstName"), rs.getString("lastName"));
-                book.addAuthor(author);
-            }
-        }
-    }
-
-    /**
-     * Loads books for a specific author.
+     * Returns all books by a specific author.
      */
     public void loadBooksForAuthor(Author author) throws SQLException {
         String query = "SELECT t.isbn, t.title, t.editionNumber, t.copyright FROM titles t " +
@@ -230,10 +255,10 @@ public class BookDatabaseManager {
 
     /**
      * Associates a book with its authors in the database.
+     * @param book The book to associate with authors.
+     * @throws SQLException if a database access error occurs.
      */
     private void addBookAuthors(Book book) throws SQLException {
-        if (book.getAuthors().isEmpty()) return; // Skip if no authors are associated with the book
-
         String query = "INSERT INTO authorISBN (authorID, isbn) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             for (Author author : book.getAuthors()) {
@@ -243,22 +268,6 @@ public class BookDatabaseManager {
             }
             stmt.executeBatch();
         }
-    }
-
-    /**
-     * Retrieves an author by their first and last name.
-     */
-    public Author getAuthorByName(String firstName, String lastName) throws SQLException {
-        String query = "SELECT * FROM authors WHERE firstName = ? AND lastName = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, firstName);
-            stmt.setString(2, lastName);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Author(rs.getInt("authorID"), rs.getString("firstName"), rs.getString("lastName"));
-            }
-        }
-        return null;
     }
 
 }
