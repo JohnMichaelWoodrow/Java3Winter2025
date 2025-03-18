@@ -10,7 +10,7 @@
     String message = (String) request.getAttribute("message");
     if (message != null) {
 %>
-<div style="color: green; font-weight: bold; border: 1px solid green; padding: 10px; margin-bottom: 10px;">
+<div style="color: red; font-weight: bold; border: 1px solid green; padding: 10px; margin-bottom: 10px;">
     <%= message %>
 </div>
 <% } %>
@@ -33,14 +33,12 @@
             }
         %>
 
-        <!-- Delete Book Form -->
         <form action="LibraryData" method="post" style="display:inline;">
             <input type="hidden" name="formType" value="deleteBook">
             <input type="hidden" name="isbn" value="<%= book.getIsbn() %>">
             <input type="submit" value="Delete">
         </form>
 
-        <!-- Update Book Form -->
         <form action="updatebook.jsp" method="get" style="display:inline;">
             <input type="hidden" name="isbn" value="<%= book.getIsbn() %>">
             <input type="submit" value="Update">

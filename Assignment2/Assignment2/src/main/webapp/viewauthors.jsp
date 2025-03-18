@@ -6,7 +6,6 @@
 
 <h1>Author List</h1>
 
-<!-- Display Confirmation Messages -->
 <%
     String message = (String) request.getAttribute("message");
     if (message != null) {
@@ -34,14 +33,12 @@
             }
         %>
 
-        <!-- Delete Author Form -->
         <form action="LibraryData" method="post" style="display:inline;">
             <input type="hidden" name="formType" value="deleteAuthor">
             <input type="hidden" name="authorId" value="<%= author.getAuthorId() %>">
             <input type="submit" value="Delete">
         </form>
 
-        <!-- Update Author Form -->
         <form action="updateauthor.jsp" method="get" style="display:inline;">
             <input type="hidden" name="authorId" value="<%= author.getAuthorId() %>">
             <input type="hidden" name="firstName" value="<%= author.getFirstName() %>">
