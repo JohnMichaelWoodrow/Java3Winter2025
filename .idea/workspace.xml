@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2e79eba-7a3a-4650-8507-eab36a580173" name="Changes" comment="Initial commit" />
+    <list default="true" id="e2e79eba-7a3a-4650-8507-eab36a580173" name="Changes" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/NotesAndExamples/Spring/SpringDemo/src/main/java/org/example/springdemo/controller/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NotesAndExamples/Spring/SpringDemo/src/main/java/org/example/springdemo/dataaccess/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NotesAndExamples/Spring/SpringDemo/src/main/java/org/example/springdemo/pojos/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NotesAndExamples/Spring/SpringDemo/src/main/java/org/example/springdemo/pojotesters/UserTester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotesAndExamples/Spring/SpringDemo/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/NotesAndExamples/Spring/SpringDemo/pom.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +46,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/john-michael.woodrow/IdeaProjects/Java3Winter2025/Java3Winter2025/Assignment2/Assignment2",
+    "last_opened_file_path": "C:/Users/john-michael.woodrow/IdeaProjects/Java3Winter2025/Java3Winter2025/Assignment3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -70,6 +77,8 @@
       <workItem from="1737128404814" duration="139000" />
       <workItem from="1737385318521" duration="2277000" />
       <workItem from="1741777737171" duration="102000" />
+      <workItem from="1743436485783" duration="192000" />
+      <workItem from="1743436682887" duration="27000" />
     </task>
     <servers />
   </component>
