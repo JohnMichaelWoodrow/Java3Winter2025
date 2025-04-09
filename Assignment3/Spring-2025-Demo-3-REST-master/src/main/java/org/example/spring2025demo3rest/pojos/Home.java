@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Entity
 public class Home {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -29,52 +29,98 @@ public class Home {
     @JoinColumn(name="user_id")
     private User user;      //User can have many homes - this will maintain the relationship
 
-    //TODO Document Getters and Setters
-
+    /**
+     * Get the home ID
+     * @return id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set the home ID
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Get the date the home was built
+     * @return dateBuilt
+     */
     public LocalDate getDateBuilt() {
         return dateBuilt;
     }
 
+    /**
+     * Set the date the home was built
+     * @param yearBuilt
+     */
     public void setDateBuilt(LocalDate yearBuilt) {
         this.dateBuilt = yearBuilt;
     }
 
+    /**
+     * Get the value of the home
+     * @return value
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Set the value of the home
+     * @param value
+     */
     public void setValue(int value) {
         this.value = value;
     }
 
+    /**
+     * Get the heating type
+     * @return heatingType
+     */
     public HeatingType getHeatingType() {
         return heatingType;
     }
 
+    /**
+     * Set the heating type
+     * @param heatingType
+     */
     public void setHeatingType(HeatingType heatingType) {
         this.heatingType = heatingType;
     }
 
+    /**
+     * Get the location type
+     * @return location
+     */
     public Location getLocation() {
         return location;
     }
 
+    /**
+     * Set the location type
+     * @param location type of location
+     */
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    /**
+     * Get the user that owns the home
+     * @return user
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Set the user that owns the home
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }
